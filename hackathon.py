@@ -158,21 +158,27 @@ class MealPlan(object):
             self.mealComboPricesBlocks.append((nutritiousCombo, blocks, priceSnacks))
             self.mealComboPricesNoBlocks.append((nutritiousCombo, priceAll))
         
-    # def generateMealSchedule(self):
-    #     if self.days <= 1:
-    #         Max out self.blocks and self.dineX
-    #         return [combo]
-    #     else:
-    #         averageBlocks = roundHalfUp(self.blocks/self.days)
-    #         averageDineX = self.dineX/self.days
-    #         Max out averageBlocks and averageDineX
-    #         self.blocks -= blocksUsedToday
-    #         self.dineX -= dineXUsedToday
-    #         self.days -= 1
-    #         return [comboUsedToday] + self.generateMealPrices()
+    def generateMealSchedule(self):
+        if self.days <= 1:
+            maxOut(self.blocks, self.dineX)
+            return [combo]
+        else:
+            averageBlocks = roundHalfUp(self.blocks/self.days)
+            averageDineX = self.dineX/self.days
+            maxOut(averageBlocks, averageDineX)
+            self.blocks -= blocksUsedToday
+            self.dineX -= dineXUsedToday
+            self.days -= 1
+            return [comboUsedToday] + self.generateMealPrices()
     
-    # def maxOut(self, blocks, dineX):
-    #     pass
+    def maxOut(self, blocks, dineX):
+        if blocks == 0:
+            for combo in self.mealComboPricesNoBlocks:
+                pass
+        else:
+            for combo in self.mealComboPricesBlocks:
+                pass
+
                 
 
 class MealVariant(object):
