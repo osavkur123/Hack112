@@ -1,0 +1,4 @@
+ID,Location,Name,Price,Calories,Fat,SatFat,Sodium,Cholesterol,Carbs,Fiber,Breakfast,Lunch,Dinner,Snack
+1,UG,3 Egg Omelette,6.5,640,51,23,720,745,16,1,TRUE,FALSE,FALSE,FALSE
+2,UG,Yogurt Parfait,4.5,340,4,2,170,10,67,1,TRUE,FALSE,FALSE,TRUE
+3,UG,French Toast,5.5,880,38,20,620,480,116,3,TRUE,TRUE,TRUE,TRUE
