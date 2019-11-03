@@ -23,6 +23,15 @@ def roundHalfUp(d):
 
 ###########################################################################
 
+def is4by3(L):
+    if len(L) != 4:
+        return False
+    for i in range(len(L)):
+        if len(L[i]) != 3:
+            return False
+    return True
+
+
 class UserBehavior(Mode):
         
 
@@ -76,9 +85,11 @@ class UserBehavior(Mode):
     def keyPressed(self, event):
         if event.key == "O":
             surveyInstances = self.getFinalSurvey()
-            mealSchedule = getMealSchedule(surveyInstances)
-            finalBehavior = FinalBehavior([["breakfast", "lunch", "dinner", "snacks"], ["breakfast2", "lunch2", "dinner2", "snacks2"]])
-            self.app.setActiveMode(finalBehavior)
+            if is4by3(surveyInstances):
+                mealSchedule = getMealSchedule(surveyInstances)
+                finalBehavior = FinalBehavior([["breakfast", "lunch", "dinner", "snacks"], ["breakfast2", "lunch2", "dinner2", "snacks2"]])
+                self.app.setActiveMode(finalBehavior)
+
 
 
     
