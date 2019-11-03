@@ -1,6 +1,7 @@
 import math, copy, random
 
 from cmu_112_graphics import *
+from hackathon import *
 from tkinter import *
 
 #################################################
@@ -22,8 +23,10 @@ def roundHalfUp(d):
 ###########################################################################
 
 class UserBehavior(App):
+        
 
     def appStarted(self):
+        self.mealVariants = getNutritiousMeals() 
         self.scrollX = [0 for i in range (4)]
         self.cursorX = self.width // 2
         self.cursorY = self.width // 2
@@ -32,7 +35,7 @@ class UserBehavior(App):
         mouseUrl = "https://image.shutterstock.com/image-vector" +\
                     "/cursor-arrow-computer-symbol-600w-1050982217.jpg"
         ogMouseImage = self.loadImage(mouseUrl)
-        self.mouseImage =  self.scaleImage(ogMouseImage, 1/20)
+        self.mouseImage =  self.scaleImage(ogMouseImage, 1/40)
         self.horizonScollers = []
         self.scrollerSize = 20
         for i in range (4):
@@ -40,13 +43,40 @@ class UserBehavior(App):
                             self.height//4*i + self.scrollerSize, \
                             "yellow")
             self.horizonScollers.append(horizonScoller)
+        self.options = self.pictureInput(4, 9)
+        self.chosenOption = [{} for i in range (4)]
+
+    def getFinalSurvey(self):
+        result = [[] for i in range (4)]
+        for meal in self.chosenOption:
+            for keys in meal:
+                findId = keys[1] + len(self.options[keys[0]])*keys[0] + 1
+                result[keys[0]].append(self.mealVariants[findId])
+        return result
+
 
 
     def mousePressed(self, event):
+        self.start = event.x
         self.selectedScroller = self.checkSelection(event.x, event.y)
+        self.selectedPicture = self.checkPicSelection(event.x, event.y)
         if self.selectedScroller != None:
             self.draggingScoller = (self.selectedScroller, \
                                     self.horizonScollers[self.selectedScroller])
+        if self.selectedPicture != None:
+            (row, col) = self.selectedPicture
+            if (row,col) in self.chosenOption[row]:
+                del self.chosenOption[row][(row,col)]
+            elif (row,col) not in self.chosenOption[row] \
+                and (len(self.chosenOption[row]) < 3):
+                    self.chosenOption[row][(row,col)] = self.options[row][col]
+
+    def keyPressed(self, event):
+        if event.key == "O":
+            surveyInstances = self.getFinalSurvey()
+            print(surveyInstances)
+        return surveyInstances
+               
 
 
     
@@ -59,18 +89,20 @@ class UserBehavior(App):
             self.newScoller =  (event.x,y0,  \
                             event.x + self.scrollerSize, y1, "green")
             index = self.draggingScoller[0]
+            print(index)
             self.horizonScollers[index] =  self.newScoller
+            self.scrollX[index] = self.horizonScollers[index][0] * 2
+            print(self.scrollX)
 
         
     def mouseReleased(self, event):
         if self.selectedScroller != None:
             index = self.draggingScoller[0]
-            self.scrollX[index] = event.x - (self.draggingScoller[1][3]- \
-                                self.draggingScoller[1][0])
-            self.horizonScollers[index] =  self.newScoller
-            print(self.scrollX)
+            print(event.x, self.newScoller[2])
+            self.horizonScollers[index] =  self.newScoller[:-1]+("yellow",)
             self.selectedScroller = None
             self.draggingScoller = None
+            self.OGselectedScoller = None
 
     def mouseMoved(self, event):
         self.cursorX = event.x
@@ -82,15 +114,57 @@ class UserBehavior(App):
                 selection = self.horizonScollers.index(item)
                 return selection
         return None
-        
+    
+    def checkPicSelection(self, x, y):
+        for row in range (len(self.options)):
+            item = self.options[row]
+            for col in range (len(item)):
+                coordinate = item[col]
+                if coordinate[0] <= x+self.scrollX[row] <= coordinate[2] \
+                     and coordinate[1] <= y <= coordinate[3]:
+                        selection = (row,col)
+                        return selection
+        return None
+    
+    def pictureInput(self, rows, cols):
+        finalList = [[]for i in range (rows)]
+        for i in range (rows):
+            rowList = []
+            for j in range (cols):
+                x0 = self.width//3 * j
+                x1 = x0 + self.width//3
+                y0 = self.height//4 * i + self.margin
+                y1 = y0 + self.height//4 - self.margin*2
+                newLocation = [x0,y0,x1,y1]
+                rowList.append(newLocation)
+            finalList[i] = rowList
+        return finalList
 
 
-        
 
     def redrawAll(self, canvas):
+        #A diction, key => id, value => instance
         canvas.create_rectangle(0,0,self.width,self.height, fill = "white")
         for i in range (4):
             self.drawHorizontalScroller(canvas)
+        self.drawCursor(canvas)
+
+        for row in range (len(self.options)):
+            rowL = self.options[row]
+            scrollx = self.scrollX[row]
+            for col in range (len(rowL)):
+                item = rowL[col]
+                x0,y0,x1,y1 = item[0]-scrollx, item[1],item[2]-scrollx,item[3]
+                cx, cy = (x0+x1)/2, (y0+y1)/2
+                ID = col + len(self.options[row])*row + 1 
+                text = self.mealVariants[ID].name
+                if (row,col) not in self.chosenOption[row]:
+                    fill = "red"
+                else:
+                    fill = "green"
+                canvas.create_rectangle(x0,y0,x1,y1, fill = fill)
+                canvas.create_text(cx,cy, text= text)
+        self.drawHorizontalScroller(canvas)
         self.drawCursor(canvas)
     
     def drawCursor(self, canvas):
@@ -106,6 +180,9 @@ class UserBehavior(App):
         for item in self.horizonScollers:
             x0,y0,x1,y1,fill = item
             canvas.create_rectangle(x0,y0,x1,y1, fill = fill)
+
+
+
 
 UserBehavior(width = 500, height = 800)
 
