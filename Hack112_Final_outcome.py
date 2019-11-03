@@ -113,7 +113,7 @@ class FinalBehavior(Mode):
         for i in range (rows):
             rowList = []
             for j in range (cols):
-                x0 = self.width//(len(self.mealSchedule)) * j
+                x0 = self.width//(len(self.mealSchedule)/6) * j
                 x1 = x0 + self.width//3
                 y0 = self.height//4 * i + self.margin
                 y1 = y0 + self.height//4 - self.margin*2
@@ -151,6 +151,10 @@ class FinalBehavior(Mode):
         self.drawCursor(canvas)
     
     def getFoodItem(self, row, col):
+        if len(self.mealSchedule) <= col:
+            return None
+        elif len(self.mealSchedule[col]) <= row:
+            return None
         return self.mealSchedule[col][row]
 
     def drawCursor(self, canvas):

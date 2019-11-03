@@ -86,8 +86,8 @@ class UserBehavior(Mode):
         if event.key == "O":
             surveyInstances = self.getFinalSurvey()
             if is4by3(surveyInstances):
-                mealSchedule = getMealSchedule(surveyInstances)
-                finalBehavior = FinalBehavior([["breakfast", "lunch", "dinner", "snacks"], ["breakfast2", "lunch2", "dinner2", "snacks2"]])
+                mealPlan = getMealSchedule(surveyInstances)
+                finalBehavior = FinalBehavior(mealPlan.mealSchedule)
                 self.app.setActiveMode(finalBehavior)
 
 
