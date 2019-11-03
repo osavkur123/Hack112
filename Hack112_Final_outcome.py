@@ -22,12 +22,13 @@ def roundHalfUp(d):
 
 ###########################################################################
 
-class UserBehavior(App):
-        
+class FinalBehavior(Mode):
+    def __init__(self, schedule):
+        super().__init__()
+        self.mealSchedule = schedule ##THe final 2d list
 
     def appStarted(self):
-        self._root.configure(cursor='none')
-        self.mealVariants = [] ##THe final 2d list
+        self.app._root.configure(cursor='none')
         self.scrollX = 0
         self.cursorX = self.width // 2
         self.cursorY = self.width // 2
@@ -45,7 +46,7 @@ class UserBehavior(App):
                             self.height//4*i + self.scrollerSize, \
                             "blue")
             self.horizonScollers.append(horizonScoller)
-        self.options = self.pictureInput(4, 7)
+        self.options = self.pictureInput(len(self.mealSchedule[0]), len(self.mealSchedule))
         self.chosenOption = [{} for i in range (4)]
 
 
@@ -112,7 +113,7 @@ class UserBehavior(App):
         for i in range (rows):
             rowList = []
             for j in range (cols):
-                x0 = self.width//(7/3) * j
+                x0 = self.width//(len(self.mealSchedule)) * j
                 x1 = x0 + self.width//3
                 y0 = self.height//4 * i + self.margin
                 y1 = y0 + self.height//4 - self.margin*2
@@ -129,25 +130,29 @@ class UserBehavior(App):
         for i in range (4):
             self.drawHorizontalScroller(canvas)
         self.drawCursor(canvas)
-
-        for row in range (len(self.options)):
+        self.drawHorizontalScroller(canvas)
+        for row in range(len(self.options)):
             rowL = self.options[row]
             scrollx = self.scrollX
-            for col in range (len(rowL)):
+            for col in range(len(rowL)):
                 item = rowL[col]
                 x0,y0,x1,y1 = item[0]-scrollx, item[1],item[2]-scrollx,item[3]
                 cx, cy = (x0+x1)/2, (y0+y1)/2
                 ID = col + len(self.options[row])*row + 1 
-                text = self.mealVariants[]
+                text = self.getFoodItem(row, col)
                 if (row,col) not in self.chosenOption[row]:
                     fill = "cyan"
                 else:
                     fill = "purple"
                 canvas.create_rectangle(x0,y0,x1,y1, fill = fill)
                 canvas.create_text(cx,cy, text= text, font='Arial 8 bold')
-        self.drawHorizontalScroller(canvas)
+                canvas.create_text(cx, self.margin/2, text = f"Day {col+1}")
+
         self.drawCursor(canvas)
     
+    def getFoodItem(self, row, col):
+        return self.mealSchedule[col][row]
+
     def drawCursor(self, canvas):
         canvas.create_image(self.cursorX, self.cursorY, \
                             image= ImageTk.PhotoImage(self.mouseImage), \
@@ -162,10 +167,3 @@ class UserBehavior(App):
         for item in self.horizonScollers:
             x0,y0,x1,y1,fill = item
             canvas.create_rectangle(x0,y0,x1,y1, fill = fill)
-
-
-
-
-UserBehavior(width = 700, height = 800)
-
-
