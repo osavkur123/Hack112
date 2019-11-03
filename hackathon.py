@@ -209,8 +209,9 @@ def getNutritiousMeals(favsList=[ ]):
                 mealList[3].append(meal)
             mealVariants.setdefault(meal.id, meal)
     MealPlan1 = MealPlan(mealList, mealList, mealVariants) # first should be favs
-    MealPlan1.generateNutrientPlan()
-    print2dList(MealPlan1.nutritiousCombos)
+    #MealPlan1.generateNutrientPlan()
+    #print2dList(MealPlan1.nutritiousCombos)
+    return mealVariants
 
 def testMealClasses():
     print('Testing class MealPlan()...', end='')
