@@ -209,7 +209,7 @@ class MealVariant(object):
     def __repr__(self):
         return self.name
 
-def getNutritiousMeals(favsList=[ ]):
+def getMealSchedule(favsList=[ ]):
     mealList = [ [ ], 
                  [ ],
                  [ ],
@@ -244,7 +244,7 @@ def testAll():
     testMealClasses()
 
 def main():
-    getNutritiousMeals()
+    getMealSchedule()
     testAll()
 
 if __name__ == '__main__':
