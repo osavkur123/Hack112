@@ -32,29 +32,18 @@ class UserBehavior(App):
         mouseUrl = "https://image.shutterstock.com/image-vector" +\
                     "/cursor-arrow-computer-symbol-600w-1050982217.jpg"
         ogMouseImage = self.loadImage(mouseUrl)
-        self.mouseImage =  self.scaleImage(ogMouseImage, 1/40)
+        self.mouseImage =  self.scaleImage(ogMouseImage, 1/20)
         self.horizonScollers = []
-        self.spriteSheet = [[] for i in range (4)]
         self.scrollerSize = 20
         for i in range (4):
             horizonScoller = (0,self.height//4 * i, self.scrollerSize, \
                             self.height//4*i + self.scrollerSize, \
                             "yellow")
             self.horizonScollers.append(horizonScoller)
-#        for j in range (12):
-#            option = (self.width//12*j, \
-#                        self.margin, \
-#                        self.width//12*(j+1) + 20, \
-#                        self.height//4)
-#            self.spriteSheet[0].append(option)
-        self.spriteSheet[0] = (0, self.margin,\
-                                self.width//6, self.height//4)
-            
 
 
     def mousePressed(self, event):
         self.selectedScroller = self.checkSelection(event.x, event.y)
-        print(self.selectedScroller)
         if self.selectedScroller != None:
             self.draggingScoller = (self.selectedScroller, \
                                     self.horizonScollers[self.selectedScroller])
@@ -67,25 +56,21 @@ class UserBehavior(App):
             self.OGselectedScoller = self.draggingScoller[1]
             newLocation = event.x
             x0,y0,x1,y1,fill = self.OGselectedScoller
-            newScoller =  (event.x,y0,  \
+            self.newScoller =  (event.x,y0,  \
                             event.x + self.scrollerSize, y1, "green")
             index = self.draggingScoller[0]
-            self.horizonScollers[index] =  newScoller
+            self.horizonScollers[index] =  self.newScoller
 
         
     def mouseReleased(self, event):
         if self.selectedScroller != None:
             index = self.draggingScoller[0]
-            self.scrollX[index] = event.x  - (self.draggingScoller[1][0])
-            self.horizonScollers[index] = self.horizonScollers[index][:-1] \
-                                             + ("yellow",)
-
+            self.scrollX[index] = event.x - (self.draggingScoller[1][3]- \
+                                self.draggingScoller[1][0])
+            self.horizonScollers[index] =  self.newScoller
+            print(self.scrollX)
             self.selectedScroller = None
             self.draggingScoller = None
-            self.OGselectedScoller = None
-            print(self.scrollX)
-            self.scrollX[index] = 0
-
 
     def mouseMoved(self, event):
         self.cursorX = event.x
@@ -93,7 +78,7 @@ class UserBehavior(App):
 
     def checkSelection(self, x, y): 
         for item in self.horizonScollers:
-            if item[0] <= x <= item[3] and item[1] <= y <= item[3]:
+            if item[0] <= x <= item[2] and item[1] <= y <= item[3]:
                 selection = self.horizonScollers.index(item)
                 return selection
         return None
@@ -104,10 +89,9 @@ class UserBehavior(App):
 
     def redrawAll(self, canvas):
         canvas.create_rectangle(0,0,self.width,self.height, fill = "white")
-#        self.drawOptions(canvas)
-        self.drawHorizontalScroller(canvas)
+        for i in range (4):
+            self.drawHorizontalScroller(canvas)
         self.drawCursor(canvas)
-        
     
     def drawCursor(self, canvas):
         canvas.create_image(self.cursorX, self.cursorY, \
@@ -122,17 +106,6 @@ class UserBehavior(App):
         for item in self.horizonScollers:
             x0,y0,x1,y1,fill = item
             canvas.create_rectangle(x0,y0,x1,y1, fill = fill)
-    
-    def drawOptions(self, canvas):
-#        for item in self.spriteSheet[0]:
-        newx0 = self.spriteSheet[0][0] - self.scrollX[0]
-        y0 = self.spriteSheet[0][1]
-        newx1 = self.spriteSheet[0][3] - self.scrollX[0]
-        y1 = self.spriteSheet[0][2]
-        print(newx0,newx1,self.scrollX[0])
-        canvas.create_rectangle(newx0,y0,newx1,y1, fill = "blue")
-
-        
 
 UserBehavior(width = 500, height = 800)
 
