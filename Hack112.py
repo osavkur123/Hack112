@@ -26,14 +26,16 @@ class UserBehavior(App):
         
 
     def appStarted(self):
+        self._root.configure(cursor='none')
         self.mealVariants = getNutritiousMeals() 
         self.scrollX = [0 for i in range (4)]
         self.cursorX = self.width // 2
         self.cursorY = self.width // 2
         self.margin = 20
         self.draggingScoller = None
-        mouseUrl = "https://image.shutterstock.com/image-vector" +\
-                    "/cursor-arrow-computer-symbol-600w-1050982217.jpg"
+        mouseUrl = "https://pngriver.com/wp-content/uploads/2017/12/"\
+            +"download-mouse-Cursor-PNG-transparent-images-transparent-"\
+            +"backgrounds-PNGRIVER-COM-851913_hand-o-pointer_512x512.png"
         ogMouseImage = self.loadImage(mouseUrl)
         self.mouseImage =  self.scaleImage(ogMouseImage, 1/40)
         self.horizonScollers = []
