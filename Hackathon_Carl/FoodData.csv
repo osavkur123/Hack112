@@ -2,3 +2,11 @@ ID,Location,Name,Price,Calories,Fat,SatFat,Sodium,Cholesterol,Carbs,Fiber,Breakf
 1,UG,3 Egg Omelette,6.5,640,51,23,720,745,16,1,TRUE,FALSE,FALSE,FALSE
 2,UG,Yogurt Parfait,4.5,340,4,2,170,10,67,1,TRUE,FALSE,FALSE,TRUE
 3,UG,French Toast,5.5,880,38,20,620,480,116,3,TRUE,TRUE,TRUE,TRUE
+4,Exchange,Bagel Egg Sandwich,4.6,565,27,13,910,245,50,2,TRUE,FALSE,FALSE,FALSE
+5,Zebra Lounge,Bacon Breakfast Sandwich,6.5,590,35,17,960,250,41,2,TRUE,FALSE,FALSE,FALSE
+6,Zebra Lounge,PB Banana Crunch Sandwich,6.5,780,39,7,850,0,97,12,TRUE,FALSE,FALSE,FALSE
+7,Zebra Lounge,Sausage Breakfast Sandwich,6.5,600,16,1090,275,42,2,TRUE,FALSE,FALSE,FALSE
+8,Heinz Cafe,Southwest Breakfast Burrito,6.5,660,32,13,1150,180,64,7,TRUE,FALSE,FALSE,FALSE
+9,Heinz Cafe,Vegetarian Breakfast Burrito,6.5,670,34,14,1020,220,64,8,TRUE,FALSE,FALSE,FALSE
+10,
+28,La Prima,Chocolate Chip Cookie,2,380,22,13,160,55,43,3,FALSE,FALSE,FALSE,TRUE
