@@ -33,9 +33,9 @@ class UserBehavior(App):
         self.cursorY = self.width // 2
         self.margin = 20
         self.draggingScoller = None
-        mouseUrl = "https://pngriver.com/wp-content/uploads/2017/12/"\
-            +"download-mouse-Cursor-PNG-transparent-images-transparent-"\
-            +"backgrounds-PNGRIVER-COM-851913_hand-o-pointer_512x512.png"
+        mouseUrl = "https://pngriver.com/wp-content/uploads/2017/12/"+\
+            "download-mouse-Cursor-PNG-transparent-images-transparent-"+\
+            "backgrounds-PNGRIVER-COM-851913_hand-o-pointer_512x512.png"
         ogMouseImage = self.loadImage(mouseUrl)
         self.mouseImage =  self.scaleImage(ogMouseImage, 1/40)
         self.horizonScollers = []
@@ -76,8 +76,7 @@ class UserBehavior(App):
     def keyPressed(self, event):
         if event.key == "O":
             surveyInstances = self.getFinalSurvey()
-            print(surveyInstances)
-        return surveyInstances
+            getNutritiousMeals(surveyInstances)
                
 
 
