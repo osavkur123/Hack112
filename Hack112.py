@@ -33,8 +33,8 @@ class UserBehavior(App):
         self.cursorY = self.width // 2
         self.margin = 20
         self.draggingScoller = None
-        mouseUrl = "https://pngriver.com/wp-content/uploads/2017/12/"+\
-            "download-mouse-Cursor-PNG-transparent-images-transparent-"+\
+        mouseUrl = "https://pngriver.com/wp-content/uploads/2017/12/" + \
+            "download-mouse-Cursor-PNG-transparent-images-transparent-" + \
             "backgrounds-PNGRIVER-COM-851913_hand-o-pointer_512x512.png"
         ogMouseImage = self.loadImage(mouseUrl)
         self.mouseImage =  self.scaleImage(ogMouseImage, 1/40)
@@ -59,7 +59,6 @@ class UserBehavior(App):
 
 
     def mousePressed(self, event):
-        self.start = event.x
         self.selectedScroller = self.checkSelection(event.x, event.y)
         self.selectedPicture = self.checkPicSelection(event.x, event.y)
         if self.selectedScroller != None:
@@ -91,10 +90,8 @@ class UserBehavior(App):
             self.newScoller =  (event.x,y0,  \
                             event.x + self.scrollerSize, y1, "green")
             index = self.draggingScoller[0]
-            print(index)
             self.horizonScollers[index] =  self.newScoller
             self.scrollX[index] = self.horizonScollers[index][0] * 2
-            print(self.scrollX)
 
         
     def mouseReleased(self, event):
@@ -165,13 +162,14 @@ class UserBehavior(App):
                 else:
                     fill = "green"
                 canvas.create_rectangle(x0,y0,x1,y1, fill = fill)
-                canvas.create_text(cx,cy, text= text)
+                canvas.create_text(cx,cy, text= text, font='Arial 8 bold')
         self.drawHorizontalScroller(canvas)
         self.drawCursor(canvas)
     
     def drawCursor(self, canvas):
         canvas.create_image(self.cursorX, self.cursorY, \
-                            image= ImageTk.PhotoImage(self.mouseImage))
+                            image= ImageTk.PhotoImage(self.mouseImage), \
+                            anchor = NW)
                                 
     def drawHorizontalScroller(self,canvas):
         for i in range (4):
@@ -186,6 +184,6 @@ class UserBehavior(App):
 
 
 
-UserBehavior(width = 500, height = 800)
+UserBehavior(width = 700, height = 800)
 
 

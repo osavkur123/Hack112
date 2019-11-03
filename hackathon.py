@@ -100,12 +100,14 @@ class MealPlan(object):
         self.dineX = 825
         self.days = 112
         self.nutritiousCombos = [ ]
-        self.mealComboPricesBlocks = [ ]
-        self.mealComboPricesNoBlocks = [ ]
+        self.mealComboPrices = [ ]
     
     def findAvgCal(self):
         for mealType in self.favsList:
-            mealAvg = sum([meal.cal for meal in mealType])/len(mealType)
+            mealAvg = 0
+            for meal in mealType:
+                mealAvg += meal.cal
+            mealAvg /= len(self.favsList)
             self.cal += mealAvg
 
     def generateNutrientPlan(self):
@@ -145,13 +147,12 @@ class MealPlan(object):
 
     def generateMealPrices(self):
         for nutritiousCombo in self.nutritiousCombos:
-            priceSnacks = 0
-            priceAll = 0
+            price = 0
             blocks = 0
             for meal in nutritiousCombo:
-                if (meal.isBfBlock or meal.isLBlock or meal.isDBlock):
+                if ((meal.isBfBlock or meal.isLBlock or meal.isDBlock) and
+                    (blocks < self.blocks)):
                     blocks += 1
-                    priceAll += meal.price
                 else:
                     priceAll += meal.price
                     priceSnacks += meal.price
@@ -208,7 +209,7 @@ class MealVariant(object):
     def __repr__(self):
         return self.name
 
-def getMealSchedule(favsList=[ ]):
+def getNutritiousMeals(favsList=[ ]):
     mealList = [ [ ], 
                  [ ],
                  [ ],
@@ -243,7 +244,7 @@ def testAll():
     testMealClasses()
 
 def main():
-    getMealSchedule()
+    getNutritiousMeals()
     testAll()
 
 if __name__ == '__main__':
