@@ -161,12 +161,12 @@ class MealPlan(object):
         
     def generateMealSchedule(self):
         if self.days <= 1:
-            Max out self.blocks and self.dineX
+            # Max out self.blocks and self.dineX
             return [combo]
         else:
             averageBlocks = roundHalfUp(self.blocks/self.days)
             averageDineX = self.dineX/self.days
-            Max out averageBlocks and averageDineX
+            # Max out averageBlocks and averageDineX
             self.blocks -= blocksUsedToday
             self.dineX -= dineXUsedToday
             self.days -= 1
