@@ -27,7 +27,7 @@ class UserBehavior(App):
 
     def appStarted(self):
         self._root.configure(cursor='none')
-        self.mealVariants = getNutritiousMeals() 
+        self.mealVariants = [] ##THe final 2d list
         self.scrollX = 0
         self.cursorX = self.width // 2
         self.cursorY = self.width // 2
@@ -48,15 +48,6 @@ class UserBehavior(App):
         self.options = self.pictureInput(4, 7)
         self.chosenOption = [{} for i in range (4)]
 
-    def getFinalSurvey(self):
-        result = [[] for i in range (4)]
-        for meal in self.chosenOption:
-            for keys in meal:
-                findId = keys[1] + len(self.options[keys[0]])*keys[0] + 1
-                result[keys[0]].append(self.mealVariants[findId])
-        return result
-
-
 
     def mousePressed(self, event):
         self.selectedScroller = self.checkSelection(event.x, event.y)
@@ -71,14 +62,6 @@ class UserBehavior(App):
             elif (row,col) not in self.chosenOption[row] \
                 and (len(self.chosenOption[row]) < 3):
                     self.chosenOption[row][(row,col)] = self.options[row][col]
-
-    def keyPressed(self, event):
-        if event.key == "O":
-            surveyInstances = self.getFinalSurvey()
-            print(surveyInstances)
-        return surveyInstances
-               
-
 
     
     def mouseDragged(self, event):
@@ -155,7 +138,7 @@ class UserBehavior(App):
                 x0,y0,x1,y1 = item[0]-scrollx, item[1],item[2]-scrollx,item[3]
                 cx, cy = (x0+x1)/2, (y0+y1)/2
                 ID = col + len(self.options[row])*row + 1 
-                text = self.mealVariants[ID].name
+                text = self.mealVariants[]
                 if (row,col) not in self.chosenOption[row]:
                     fill = "cyan"
                 else:
