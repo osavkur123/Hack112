@@ -27,14 +27,19 @@ class UserBehavior(App):
 
     def appStarted(self):
         self._root.configure(cursor='none')
-        self.mealVariants = getNutritiousMeals() 
+        self.mealVariants = getMealSchedule() 
         self.scrollX = [0 for i in range (4)]
         self.cursorX = self.width // 2
         self.cursorY = self.width // 2
         self.margin = 20
         self.draggingScoller = None
+<<<<<<< HEAD
         mouseUrl = "https://pngriver.com/wp-content/uploads/2017/12/" + \
             "download-mouse-Cursor-PNG-transparent-images-transparent-" + \
+=======
+        mouseUrl = "https://pngriver.com/wp-content/uploads/2017/12/"+\
+            "download-mouse-Cursor-PNG-transparent-images-transparent-"+\
+>>>>>>> f37213f593b4e93c1b1abd3ee650d9f0ede568cd
             "backgrounds-PNGRIVER-COM-851913_hand-o-pointer_512x512.png"
         ogMouseImage = self.loadImage(mouseUrl)
         self.mouseImage =  self.scaleImage(ogMouseImage, 1/40)
@@ -74,10 +79,10 @@ class UserBehavior(App):
 
     def keyPressed(self, event):
         if event.key == "O":
+            print("Getting stuff")
             surveyInstances = self.getFinalSurvey()
-            print(surveyInstances)
-        return surveyInstances
-               
+            mealSchedule = getMealSchedule(surveyInstances)
+            print(mealSchedule)
 
 
     
