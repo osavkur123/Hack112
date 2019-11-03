@@ -25,6 +25,7 @@ import math, copy, random
 
 FILE_FOOD_DATA = "FoodData.csv"
 
+# From https://www.cs.cmu.edu/~112/notes/notes-2d-lists.html#printing
 # Helper function for print2dList.
 # This finds the maximum length of the string
 # representation of any item in the 2d list
@@ -60,6 +61,23 @@ def print2dList(a):
         print(" ]", end="")
     print("]")
 
+# From https://www.cs.cmu.edu/~112/notes/notes-recursion-part1.html#powerset
+def powerset(a):
+    # Base case: the only possible subset of an empty list is the empty list.
+    if (len(a) == 0):
+        return [ [] ]
+    else:
+        # Recursive Case: remove the first element, then find all subsets of the
+        # remaining list. Then for each subset, use two versions of that subset:
+        # one without the first element, and another one with it.
+
+        partialSubsets = powerset(a[1:])
+        allSubsets = [ ]
+        for subset in partialSubsets:
+            allSubsets.append(subset)
+            allSubsets.append([a[0]] + subset)
+        return allSubsets
+
 class MealPlan(object):
     def __init__(self, favsList, mealList, mealVariants):
         # favsList is a 2-d list of the mealVariant classes; user's 3 favorite
@@ -68,20 +86,53 @@ class MealPlan(object):
         # mealList is the master 2-d of all the meals 
         # (row 0 is breakfasts, 1 is lunches, 2 is dinners, 3 is snacks)
         self.favsList = favsList 
+        self.mealList = mealList 
         self.mealVariants = mealVariants    # Dict
+        # Daily Amounts
+        cal = 2000
+        fat = 65
+        satFat = 20
+        sodium = 2400
+        chol = 300
+        carbs = 300
+        fiber = 25
+        self.dailyAmounts = [cal, fat, satFat, sodium, chol, carbs, fiber]
+        self.blocks = 207
+        self.dineX = 825
+        self.days = 112
+        self.nutritiousCombos = [ ]
+    
+    def generateNutrientPlan(self):
         for bfast in self.favsList[0]:
             for lunch in self.favsList[1]:
                 for dinner in self.favsList[2]:
-                    for snack in self.favsList[3]:
-                        price = bfast.price+lunch.price+dinner.price+snack.price
-                        cal = bfast.cal+lunch.cal+dinner.cal+snack.cal
-                        fat = bfast.fat+lunch.fat+dinner.fat+snack.fat
-                        satFat = bfast.satFat+lunch.satFat+dinner.satFat+snack.satFat
-                        sodium = bfast.sodium+lunch.sodium+dinner.sodium+snack.sodium
-                        chol = bfast.chol+lunch.chol+dinner.chol+snack.chol
-                        carbs = bfast.carbs+lunch.carbs+dinner.carbs+snack.carbs
-                        fiber = bfast.fiber+lunch.fiber+dinner.fiber+snack.fiber
-                        print('wow')
+                    # for snack in self.favsList[3]:
+                    snacks = self.favsList[3]
+                    combos = powerset([bfast, lunch, dinner] + snacks)
+                    for i in range(len(combos)):
+                        isCombo = True
+                        cal = 0
+                        fat = 0
+                        satFat = 0
+                        sodium = 0
+                        chol = 0
+                        carbs = 0
+                        fiber = 0
+                        for j in range(len(combos[i])):
+                            cal += combos[i][j].cal
+                            fat += combos[i][j].fat
+                            satFat += combos[i][j].satFat
+                            sodium += combos[i][j].sodium
+                            chol += combos[i][j].chol
+                            carbs += combos[i][j].carbs
+                            fiber += combos[i][j].fiber
+                        todaysAmounts = [cal, fat, satFat, sodium, chol, carbs, fiber]
+                        for j in range(len(self.dailyAmounts)):
+                            error = abs(self.dailyAmounts[j]-todaysAmounts[j])/self.dailyAmounts[j]
+                            if (error > .25):
+                                isCombo = False
+                        if (isCombo and combos[i] not in self.nutritiousCombos):
+                            self.nutritiousCombos.append(combos[i])
 
 class MealVariant(object):
     def __init__(self, csv_row):
@@ -96,10 +147,10 @@ class MealVariant(object):
         self.chol = int(csv_row["Cholesterol"])
         self.carbs = int(csv_row["Carbs"])
         self.fiber = int(csv_row["Fiber"])
-        self.isBfBlock = bool(csv_row["Breakfast"]) # !!! Wrong to do bool()???
-        self.isLBlock = bool(csv_row["Lunch"])
-        self.isDBlock = bool(csv_row["Dinner"])
-        self.isSnack = bool(csv_row["Snack"])
+        self.isBfBlock = True if csv_row["Breakfast"] == "TRUE" else False
+        self.isLBlock = True if csv_row["Lunch"] == "TRUE" else False
+        self.isDBlock = True if csv_row["Dinner"] == "TRUE" else False
+        self.isSnack = True if csv_row["Snack"] == "TRUE" else False
 
     def __hash__(self):
         return hash(self.id)
@@ -137,6 +188,15 @@ def main():
             else:
                 mealList[3].append(meal)
             mealVariants.setdefault(meal.id, meal)
+    '''
+    favsList = [ [ mealList[0][0], mealList[0][1], mealList[0][2] ],
+                 [ mealList[1][0], mealList[1][1], mealList[1][2] ],
+                 [ mealList[2][0], mealList[2][1], mealList[2][2] ],
+                 [ mealList[3][0], mealList[3][1], mealList[3][2] ] ]
+    '''
+    MealPlan1 = MealPlan(mealList, mealList, mealVariants)
+    MealPlan1.generateNutrientPlan()
+    print(MealPlan1.nutritiousCombos)
     testAll()
 
 if __name__ == '__main__':
