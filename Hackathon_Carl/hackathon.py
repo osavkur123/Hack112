@@ -110,7 +110,8 @@ class MealPlan(object):
                     snacks = self.favsList[3]
                     combos = powerset([bfast, lunch, dinner] + snacks)
                     for i in range(len(combos)):
-                        isCombo = True
+                        isNutritious = True
+                        badNutrients = 0
                         cal = 0
                         fat = 0
                         satFat = 0
@@ -129,10 +130,15 @@ class MealPlan(object):
                         todaysAmounts = [cal, fat, satFat, sodium, chol, carbs, fiber]
                         for j in range(len(self.dailyAmounts)):
                             error = abs(self.dailyAmounts[j]-todaysAmounts[j])/self.dailyAmounts[j]
-                            if (error > .25):
-                                isCombo = False
-                        if (isCombo and combos[i] not in self.nutritiousCombos):
+                            if (error > .1):
+                                badNutrients += 1
+                                if (badNutrients > 1):
+                                    isNutritious = False
+                        if (isNutritious and combos[i] not in self.nutritiousCombos):
                             self.nutritiousCombos.append(combos[i])
+
+    def generateMealPlan(self):
+        pass
 
 class MealVariant(object):
     def __init__(self, csv_row):
