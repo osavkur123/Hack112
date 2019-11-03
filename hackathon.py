@@ -159,21 +159,21 @@ class MealPlan(object):
             self.mealComboPricesBlocks.append((nutritiousCombo, blocks, priceSnacks))
             self.mealComboPricesNoBlocks.append((nutritiousCombo, priceAll))
         
-    def generateMealSchedule(self):
-        if self.days <= 1:
-            Max out self.blocks and self.dineX
-            return [combo]
-        else:
-            averageBlocks = roundHalfUp(self.blocks/self.days)
-            averageDineX = self.dineX/self.days
-            Max out averageBlocks and averageDineX
-            self.blocks -= blocksUsedToday
-            self.dineX -= dineXUsedToday
-            self.days -= 1
-            return [comboUsedToday] + self.generateMealPrices()
+    # def generateMealSchedule(self):
+    #     if self.days <= 1:
+    #         Max out self.blocks and self.dineX
+    #         return [combo]
+    #     else:
+    #         averageBlocks = roundHalfUp(self.blocks/self.days)
+    #         averageDineX = self.dineX/self.days
+    #         Max out averageBlocks and averageDineX
+    #         self.blocks -= blocksUsedToday
+    #         self.dineX -= dineXUsedToday
+    #         self.days -= 1
+    #         return [comboUsedToday] + self.generateMealPrices()
     
-    def maxOut(self, blocks, dineX):
-        pass
+    # def maxOut(self, blocks, dineX):
+    #     pass
                 
 
 class MealVariant(object):
@@ -222,12 +222,10 @@ def getMealSchedule(favsList=[ ]):
             else:
                 mealList[3].append(meal)
             mealVariants.setdefault(meal.id, meal)
-    if favsList == [ ]:
-        MealPlan1 = MealPlan(mealList, mealList, mealVariants) # first should be favs
-    else:
+    if favsList != [ ]:
         MealPlan1 = MealPlan(favsList, mealList, mealVariants)
-    MealPlan1.generateNutrientPlan()
-    MealPlan1.generateMealPrices()
+        MealPlan1.generateNutrientPlan()
+        MealPlan1.generateMealPrices()
     return mealVariants
 
 def testMealClasses():

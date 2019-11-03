@@ -27,7 +27,7 @@ class UserBehavior(App):
 
     def appStarted(self):
         self._root.configure(cursor='none')
-        self.mealVariants = getNutritiousMeals() 
+        self.mealVariants = getMealSchedule() 
         self.scrollX = [0 for i in range (4)]
         self.cursorX = self.width // 2
         self.cursorY = self.width // 2
@@ -75,9 +75,10 @@ class UserBehavior(App):
 
     def keyPressed(self, event):
         if event.key == "O":
+            print("Getting stuff")
             surveyInstances = self.getFinalSurvey()
-            getNutritiousMeals(surveyInstances)
-               
+            mealSchedule = getMealSchedule(surveyInstances)
+            print(mealSchedule)
 
 
     
