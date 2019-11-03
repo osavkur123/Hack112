@@ -25,6 +25,24 @@ import math, copy, random
 
 FILE_FOOD_DATA = "FoodData.csv"
 
+#################################################
+# Helper functions
+#################################################
+
+def almostEqual(d1, d2, epsilon=10**-7):
+    # note: use math.isclose() outside 15-112 with Python version 3.5 or later
+    return (abs(d2 - d1) < epsilon)
+
+import decimal
+def roundHalfUp(d):
+    # Round to nearest with ties going away from zero.
+    rounding = decimal.ROUND_HALF_UP
+    # See other rounding options here:
+    # https://docs.python.org/3/library/decimal.html#rounding-modes
+    return int(decimal.Decimal(d).to_integral_value(rounding=rounding))
+
+###########################################################################
+
 # From https://www.cs.cmu.edu/~112/notes/notes-2d-lists.html#printing
 # Helper function for print2dList.
 # This finds the maximum length of the string
@@ -100,7 +118,12 @@ class MealPlan(object):
         self.dineX = 825
         self.days = 112
         self.nutritiousCombos = [ ]
-        self.mealComboPrices = [ ]
+        self.mealComboPricesBlocks = [ ]
+        self.mealComboPricesNoBlocks = [ ]
+        self.generateNutrientPlan()
+        self.generateMealPrices()
+        self.mealSchedule = self.generateMealSchedule()
+        self.mealSchedule = list(set(self.mealSchedule))
     
     def findAvgCal(self):
         for mealType in self.favsList:
@@ -138,7 +161,7 @@ class MealPlan(object):
                         todaysAmounts = [cal, fat, satFat, sodium, chol, carbs, fiber]
                         for j in range(len(self.dailyAmounts)):
                             error = abs(self.dailyAmounts[j]-todaysAmounts[j])/self.dailyAmounts[j]
-                            if (error > .1):
+                            if (error > .4):
                                 badNutrients += 1
                                 if (badNutrients > 1):
                                     isNutritious = False
@@ -147,7 +170,8 @@ class MealPlan(object):
 
     def generateMealPrices(self):
         for nutritiousCombo in self.nutritiousCombos:
-            price = 0
+            priceSnacks = 0
+            priceAll = 0
             blocks = 0
             for meal in nutritiousCombo:
                 if ((meal.isBfBlock or meal.isLBlock or meal.isDBlock) and
@@ -161,25 +185,24 @@ class MealPlan(object):
         
     def generateMealSchedule(self):
         if self.days <= 1:
-            maxOut(self.blocks, self.dineX)
-            return [combo]
+            dayPlan = self.maxOut(self.blocks, self.dineX)
+            return [tuple(dayPlan[0])]
         else:
             averageBlocks = roundHalfUp(self.blocks/self.days)
             averageDineX = self.dineX/self.days
-            maxOut(averageBlocks, averageDineX)
-            self.blocks -= blocksUsedToday
-            self.dineX -= dineXUsedToday
+            dayPlan = self.maxOut(averageBlocks, averageDineX)
+            self.blocks -= dayPlan[1] if (len(dayPlan) == 2) else 0
+            self.dineX -= dayPlan[2] if (len(dayPlan) == 2) else dayPlan[1]
             self.days -= 1
-            return [comboUsedToday] + self.generateMealPrices()
+            # dayPlan[0] = combo used today
+            return [tuple(dayPlan[0])] + self.generateMealSchedule()
     
     def maxOut(self, blocks, dineX):
-        if blocks == 0:
-            for combo in self.mealComboPricesNoBlocks:
-                pass
+        if (blocks == 0):
+            combo = random.choice(self.mealComboPricesNoBlocks)
         else:
-            for combo in self.mealComboPricesBlocks:
-                pass
-
+            combo = random.choice(self.mealComboPricesBlocks)
+        return combo
                 
 
 class MealVariant(object):
@@ -230,8 +253,7 @@ def getMealSchedule(favsList=[ ]):
             mealVariants.setdefault(meal.id, meal)
     if favsList != [ ]:
         MealPlan1 = MealPlan(favsList, mealList, mealVariants)
-        MealPlan1.generateNutrientPlan()
-        MealPlan1.generateMealPrices()
+        print(MealPlan1.mealSchedule)
         return MealPlan1
     return mealVariants
 
