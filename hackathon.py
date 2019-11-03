@@ -101,6 +101,7 @@ class MealPlan(object):
         self.dineX = 825
         self.days = 112
         self.nutritiousCombos = [ ]
+        self.mealComboPrices = [ ]
     
     def generateNutrientPlan(self):
         for bfast in self.favsList[0]:
@@ -137,8 +138,18 @@ class MealPlan(object):
                         if (isNutritious and combos[i] not in self.nutritiousCombos):
                             self.nutritiousCombos.append(combos[i])
 
-    def generateMealPlan(self):
-        pass
+    def generateMealPrices(self):
+        for nutritiousCombo in self.nutritiousCombos:
+            price = 0
+            blocks = 0
+            for meal in nutritiousCombo:
+                if ((meal.isBfBlock or meal.isLBlock or meal.isDBlock) and
+                    (blocks < self.blocks)):
+                    blocks += 1
+                else:
+                    price += meal.price
+            
+                
 
 class MealVariant(object):
     def __init__(self, csv_row):
@@ -167,15 +178,7 @@ class MealVariant(object):
     def __repr__(self):
         return self.name
 
-def testMealClasses():
-    print('Testing class MealPlan()...', end='')
-    assert(1 == 0)
-    print('Passed!')
-
-def testAll():
-    testMealClasses()
-
-def main():
+def getNutritiousMeals(favsList=[ ]):
     mealList = [ [ ], 
                  [ ],
                  [ ],
@@ -194,15 +197,20 @@ def main():
             else:
                 mealList[3].append(meal)
             mealVariants.setdefault(meal.id, meal)
-    '''
-    favsList = [ [ mealList[0][0], mealList[0][1], mealList[0][2] ],
-                 [ mealList[1][0], mealList[1][1], mealList[1][2] ],
-                 [ mealList[2][0], mealList[2][1], mealList[2][2] ],
-                 [ mealList[3][0], mealList[3][1], mealList[3][2] ] ]
-    '''
-    MealPlan1 = MealPlan(mealList, mealList, mealVariants)
+    MealPlan1 = MealPlan(mealList, mealList, mealVariants) # first should be favs
     MealPlan1.generateNutrientPlan()
     print(MealPlan1.nutritiousCombos)
+
+def testMealClasses():
+    print('Testing class MealPlan()...', end='')
+    assert(1 == 0)
+    print('Passed!')
+
+def testAll():
+    testMealClasses()
+
+def main():
+    getNutritiousMeals()
     testAll()
 
 if __name__ == '__main__':
