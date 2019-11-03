@@ -1,21 +1,21 @@
 ID,Location,Name,Price,Calories,Fat,SatFat,Sodium,Cholesterol,Carbs,Fiber,Breakfast,Lunch,Dinner,Snack
-1,UG,3 Egg Omelette,6.5,640,51,23,720,745,16,1,TRUE,FALSE,FALSE,FALSE
-2,UG,Yogurt Parfait,4.5,340,4,2,170,10,67,1,TRUE,FALSE,FALSE,TRUE
-3,UG,French Toast,5.5,880,38,20,620,480,116,3,TRUE,TRUE,TRUE,TRUE
-4,Exchange,Bagel Egg Sandwich,4.6,565,27,13,910,245,50,2,TRUE,FALSE,FALSE,FALSE
-5,Zebra Lounge,Bacon Breakfast Sandwich,6.5,590,35,17,960,250,41,2,TRUE,FALSE,FALSE,FALSE
-6,Zebra Lounge,PB Banana Crunch Sandwich,6.5,780,39,7,850,0,97,12,TRUE,FALSE,FALSE,FALSE
-7,Zebra Lounge,Sausage Breakfast Sandwich,6.5,600,34,16,1090,275,42,2,TRUE,FALSE,FALSE,FALSE
-8,Heinz Cafe,Southwest Breakfast Burrito,6.5,660,32,13,1150,180,64,7,TRUE,FALSE,FALSE,FALSE
-9,Heinz Cafe,Vegetarian Breakfast Burrito,6.5,670,34,14,1020,220,64,8,TRUE,FALSE,FALSE,FALSE
-10,Nakama Express,Avocado and Cucumber Roll,9.8,400,7,1,1270,0,78,4,FALSE,TRUE,FALSE,FALSE
-11,Nakama Express,Red Dragon Roll,9.8,510,15,2.5,1750,25,74,1,FALSE,TRUE,FALSE,FALSE
-12,Gingers Express,Southwest Chicken Wrap,9.8,490,18,7,850,95,56,4,FALSE,TRUE,FALSE,FALSE
-13,Gingers Express,Turkey Sandwich,9.8,400,17,9,1010,70,27,3,FALSE,TRUE,FALSE,FALSE
-14,Gingers Express,Veggie Wrap,9.8,300,7,2,710,0,52,5,FALSE,TRUE,FALSE,FALSE
-15,Gingers Express,Ham Sandwich,9.8,400,18,9,1350,85,29,3,FALSE,TRUE,FALSE,FALSE
-16,Tazza D'Oro,Roasted Turkey Panini,9.8,460,10,3.5,1530,75,55,3,FALSE,TRUE,FALSE,FALSE
-17,Tazza D'Oro,Winter Prosciutto Panini,9.8,430,13,4.5,2150,50,49,2,FALSE,TRUE,FALSE,FALSE
-18,UG,Chicken Quesadilla,6.5,480,22,10,760,110,33,5,FALSE,TRUE,FALSE,FALSE
+1,UG,3 Egg Omelette,0,640,51,23,720,745,16,1,TRUE,FALSE,FALSE,FALSE
+2,UG,Yogurt Parfait,0,340,4,2,170,10,67,1,TRUE,FALSE,FALSE,TRUE
+3,UG,French Toast,0,880,38,20,620,480,116,3,TRUE,TRUE,TRUE,TRUE
+4,Exchange,Bagel Egg Sandwich,0,565,27,13,910,245,50,2,TRUE,FALSE,FALSE,FALSE
+5,Zebra Lounge,Bacon Breakfast Sandwich,0,590,35,17,960,250,41,2,TRUE,FALSE,FALSE,FALSE
+6,Zebra Lounge,PB Banana Crunch Sandwich,0,780,39,7,850,0,97,12,TRUE,FALSE,FALSE,FALSE
+7,Zebra Lounge,Sausage Breakfast Sandwich,0,600,34,16,1090,275,42,2,TRUE,FALSE,FALSE,FALSE
+8,Heinz Cafe,Southwest Breakfast Burrito,0,660,32,13,1150,180,64,7,TRUE,FALSE,FALSE,FALSE
+9,Heinz Cafe,Vegetarian Breakfast Burrito,0,670,34,14,1020,220,64,8,TRUE,FALSE,FALSE,FALSE
+10,Nakama Express,Avocado and Cucumber Roll,0,400,7,1,1270,0,78,4,FALSE,TRUE,FALSE,FALSE
+11,Nakama Express,Red Dragon Roll,0,510,15,2.5,1750,25,74,1,FALSE,TRUE,FALSE,FALSE
+12,Gingers Express,Southwest Chicken Wrap,0,490,18,7,850,95,56,4,FALSE,TRUE,FALSE,FALSE
+13,Gingers Express,Turkey Sandwich,0,400,17,9,1010,70,27,3,FALSE,TRUE,FALSE,FALSE
+14,Gingers Express,Veggie Wrap,0,300,7,2,710,0,52,5,FALSE,TRUE,FALSE,FALSE
+15,Gingers Express,Ham Sandwich,0,400,18,9,1350,85,29,3,FALSE,TRUE,FALSE,FALSE
+16,Tazza D'Oro,Roasted Turkey Panini,0,460,10,3.5,1530,75,55,3,FALSE,TRUE,FALSE,FALSE
+17,Tazza D'Oro,Winter Prosciutto Panini,0,430,13,4.5,2150,50,49,2,FALSE,TRUE,FALSE,FALSE
+18,UG,Chicken Quesadilla,0,480,22,10,760,110,33,5,FALSE,TRUE,FALSE,FALSE
 19,
 28,La Prima,Chocolate Chip Cookie,2,380,22,13,160,55,43,3,FALSE,FALSE,FALSE,TRUE
