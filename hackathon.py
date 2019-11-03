@@ -89,6 +89,7 @@ class MealPlan(object):
         # Daily Amounts
         self.cal = 0
         self.findAvgCal()
+        print(self.cal)
         fat = (13/400)*self.cal
         satFat = (1/100)*self.cal
         sodium = (6/5)*self.cal
@@ -100,14 +101,12 @@ class MealPlan(object):
         self.dineX = 825
         self.days = 112
         self.nutritiousCombos = [ ]
-        self.mealComboPrices = [ ]
+        self.mealComboPricesBlocks = [ ]
+        self.mealComboPricesNoBlocks = [ ]
     
     def findAvgCal(self):
         for mealType in self.favsList:
-            mealAvg = 0
-            for meal in mealType:
-                mealAvg += meal.cal
-            mealAvg /= len(self.favsList)
+            mealAvg = sum([meal.cal for meal in mealType])/len(mealType)
             self.cal += mealAvg
 
     def generateNutrientPlan(self):
@@ -147,15 +146,20 @@ class MealPlan(object):
 
     def generateMealPrices(self):
         for nutritiousCombo in self.nutritiousCombos:
-            price = 0
+            priceSnacks = 0
+            priceAll = 0
             blocks = 0
             for meal in nutritiousCombo:
-                if ((meal.isBfBlock or meal.isLBlock or meal.isDBlock) and
-                    (blocks < self.blocks)):
+                if (meal.isBfBlock or meal.isLBlock or meal.isDBlock):
                     blocks += 1
+                    priceAll += meal.price
                 else:
-                    price += meal.price
-        """
+                    priceAll += meal.price
+                    priceSnacks += meal.price
+            self.mealComboPricesBlocks.append((nutritiousCombo, blocks, priceSnacks))
+            self.mealComboPricesNoBlocks.append((nutritiousCombo, priceAll))
+        
+    def generateMealSchedule(self):
         if self.days <= 1:
             Max out self.blocks and self.dineX
             return [combo]
@@ -167,7 +171,9 @@ class MealPlan(object):
             self.dineX -= dineXUsedToday
             self.days -= 1
             return [comboUsedToday] + self.generateMealPrices()
-        """
+    
+    def maxOut(self, blocks, dineX):
+        pass
                 
 
 class MealVariant(object):
@@ -197,7 +203,7 @@ class MealVariant(object):
     def __repr__(self):
         return self.name
 
-def getNutritiousMeals(favsList=[ ]):
+def getMealSchedule(favsList=[ ]):
     mealList = [ [ ], 
                  [ ],
                  [ ],
@@ -216,9 +222,12 @@ def getNutritiousMeals(favsList=[ ]):
             else:
                 mealList[3].append(meal)
             mealVariants.setdefault(meal.id, meal)
-    MealPlan1 = MealPlan(mealList, mealList, mealVariants) # first should be favs
-    #MealPlan1.generateNutrientPlan()
-    #print2dList(MealPlan1.nutritiousCombos)
+    if favsList == [ ]:
+        MealPlan1 = MealPlan(mealList, mealList, mealVariants) # first should be favs
+    else:
+        MealPlan1 = MealPlan(favsList, mealList, mealVariants)
+    MealPlan1.generateNutrientPlan()
+    MealPlan1.generateMealPrices()
     return mealVariants
 
 def testMealClasses():
@@ -230,7 +239,7 @@ def testAll():
     testMealClasses()
 
 def main():
-    getNutritiousMeals()
+    getMealSchedule()
     testAll()
 
 if __name__ == '__main__':
