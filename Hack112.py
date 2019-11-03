@@ -33,13 +33,8 @@ class UserBehavior(App):
         self.cursorY = self.width // 2
         self.margin = 20
         self.draggingScoller = None
-<<<<<<< HEAD
         mouseUrl = "https://pngriver.com/wp-content/uploads/2017/12/" + \
             "download-mouse-Cursor-PNG-transparent-images-transparent-" + \
-=======
-        mouseUrl = "https://pngriver.com/wp-content/uploads/2017/12/"+\
-            "download-mouse-Cursor-PNG-transparent-images-transparent-"+\
->>>>>>> f37213f593b4e93c1b1abd3ee650d9f0ede568cd
             "backgrounds-PNGRIVER-COM-851913_hand-o-pointer_512x512.png"
         ogMouseImage = self.loadImage(mouseUrl)
         self.mouseImage =  self.scaleImage(ogMouseImage, 1/40)

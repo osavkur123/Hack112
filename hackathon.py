@@ -154,20 +154,32 @@ class MealPlan(object):
                     (blocks < self.blocks)):
                     blocks += 1
                 else:
-                    price += meal.price
-        """
+                    priceAll += meal.price
+                    priceSnacks += meal.price
+            self.mealComboPricesBlocks.append((nutritiousCombo, blocks, priceSnacks))
+            self.mealComboPricesNoBlocks.append((nutritiousCombo, priceAll))
+        
+    def generateMealSchedule(self):
         if self.days <= 1:
-            Max out self.blocks and self.dineX
+            maxOut(self.blocks, self.dineX)
             return [combo]
         else:
             averageBlocks = roundHalfUp(self.blocks/self.days)
             averageDineX = self.dineX/self.days
-            Max out averageBlocks and averageDineX
+            maxOut(averageBlocks, averageDineX)
             self.blocks -= blocksUsedToday
             self.dineX -= dineXUsedToday
             self.days -= 1
             return [comboUsedToday] + self.generateMealPrices()
-        """
+    
+    def maxOut(self, blocks, dineX):
+        if blocks == 0:
+            for combo in self.mealComboPricesNoBlocks:
+                pass
+        else:
+            for combo in self.mealComboPricesBlocks:
+                pass
+
                 
 
 class MealVariant(object):
@@ -197,7 +209,7 @@ class MealVariant(object):
     def __repr__(self):
         return self.name
 
-def getNutritiousMeals(favsList=[ ]):
+def getMealSchedule(favsList=[ ]):
     mealList = [ [ ], 
                  [ ],
                  [ ],
@@ -216,17 +228,11 @@ def getNutritiousMeals(favsList=[ ]):
             else:
                 mealList[3].append(meal)
             mealVariants.setdefault(meal.id, meal)
-<<<<<<< HEAD
-    MealPlan1 = MealPlan(mealList, mealList, mealVariants) # first should be favs
-    #MealPlan1.generateNutrientPlan()
-    #print2dList(MealPlan1.nutritiousCombos)
-=======
     if favsList != [ ]:
         MealPlan1 = MealPlan(favsList, mealList, mealVariants)
         MealPlan1.generateNutrientPlan()
         MealPlan1.generateMealPrices()
         return MealPlan1
->>>>>>> f47d96204acc35b3ba9a28d0a34f053a9e282bc8
     return mealVariants
 
 def testMealClasses():
@@ -238,7 +244,7 @@ def testAll():
     testMealClasses()
 
 def main():
-    getNutritiousMeals()
+    getMealSchedule()
     testAll()
 
 if __name__ == '__main__':
