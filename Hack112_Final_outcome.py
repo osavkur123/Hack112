@@ -46,7 +46,7 @@ class FinalBehavior(Mode):
                             self.height//4*i + self.scrollerSize, \
                             "blue")
             self.horizonScollers.append(horizonScoller)
-        self.options = self.pictureInput(4, 7)
+        self.options = self.pictureInput(len(self.mealSchedule[0]), len(self.mealSchedule))
         self.chosenOption = [{} for i in range (4)]
 
 
@@ -113,7 +113,7 @@ class FinalBehavior(Mode):
         for i in range (rows):
             rowList = []
             for j in range (cols):
-                x0 = self.width//(7/3) * j
+                x0 = self.width//(len(self.mealSchedule)) * j
                 x1 = x0 + self.width//3
                 y0 = self.height//4 * i + self.margin
                 y1 = y0 + self.height//4 - self.margin*2
@@ -130,7 +130,7 @@ class FinalBehavior(Mode):
         for i in range (4):
             self.drawHorizontalScroller(canvas)
         self.drawCursor(canvas)
-
+        self.drawHorizontalScroller(canvas)
         for row in range(len(self.options)):
             rowL = self.options[row]
             scrollx = self.scrollX
@@ -146,7 +146,8 @@ class FinalBehavior(Mode):
                     fill = "purple"
                 canvas.create_rectangle(x0,y0,x1,y1, fill = fill)
                 canvas.create_text(cx,cy, text= text, font='Arial 8 bold')
-        self.drawHorizontalScroller(canvas)
+                canvas.create_text(cx, self.margin/2, text = f"Day {col+1}")
+
         self.drawCursor(canvas)
     
     def getFoodItem(self, row, col):
