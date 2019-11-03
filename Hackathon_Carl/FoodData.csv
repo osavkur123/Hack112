@@ -17,5 +17,5 @@ ID,Location,Name,Price,Calories,Fat,SatFat,Sodium,Cholesterol,Carbs,Fiber,Breakf
 16,Tazza D'Oro,Roasted Turkey Panini,0,460,10,3.5,1530,75,55,3,FALSE,TRUE,FALSE,FALSE
 17,Tazza D'Oro,Winter Prosciutto Panini,0,430,13,4.5,2150,50,49,2,FALSE,TRUE,FALSE,FALSE
 18,UG,Chicken Quesadilla,0,480,22,10,760,110,33,5,FALSE,TRUE,FALSE,FALSE
-19,
+19,UG,Pasta Marinara,0,430,5,0,870,5,82,7,FALSE,FALSE,TRUE,FALSE
 28,La Prima,Chocolate Chip Cookie,2,380,22,13,160,55,43,3,FALSE,FALSE,FALSE,TRUE
