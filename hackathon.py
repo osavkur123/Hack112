@@ -87,20 +87,29 @@ class MealPlan(object):
         self.mealList = mealList 
         self.mealVariants = mealVariants    # Dict
         # Daily Amounts
-        cal = 2000
-        fat = 65
-        satFat = 20
-        sodium = 2400
-        chol = 300
-        carbs = 300
-        fiber = 25
-        self.dailyAmounts = [cal, fat, satFat, sodium, chol, carbs, fiber]
+        self.cal = 0
+        self.findAvgCal()
+        fat = (13/400)*self.cal
+        satFat = (1/100)*self.cal
+        sodium = (6/5)*self.cal
+        chol = (3/20)*self.cal
+        carbs = (3/20)*self.cal
+        fiber = (1/80)*self.cal
+        self.dailyAmounts = [self.cal, fat, satFat, sodium, chol, carbs, fiber]
         self.blocks = 207
         self.dineX = 825
         self.days = 112
         self.nutritiousCombos = [ ]
         self.mealComboPrices = [ ]
     
+    def findAvgCal(self):
+        for mealType in self.favsList:
+            mealAvg = 0
+            for meal in mealType:
+                mealAvg += meal.cal
+            mealAvg /= len(self.favsList)
+            self.cal += mealAvg
+
     def generateNutrientPlan(self):
         for bfast in self.favsList[0]:
             for lunch in self.favsList[1]:
@@ -159,7 +168,6 @@ class MealPlan(object):
             self.days -= 1
             return [comboUsedToday] + self.generateMealPrices()
         """
-            
                 
 
 class MealVariant(object):
