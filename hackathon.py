@@ -32,9 +32,8 @@ FILE_FOOD_DATA = "FoodData.csv"
 def maxItemLength(a):
     maxLen = 0
     rows = len(a)
-    cols = len(a[0])
     for row in range(rows):
-        for col in range(cols):
+        for col in range(len(a[row])):
             maxLen = max(maxLen, len(str(a[row][col])))
     return maxLen
 
@@ -47,13 +46,12 @@ def print2dList(a):
         print([])
         return
     rows = len(a)
-    cols = len(a[0])
     fieldWidth = maxItemLength(a)
     print("[ ", end="")
     for row in range(rows):
         if (row > 0): print("\n  ", end="")
         print("[ ", end="")
-        for col in range(cols):
+        for col in range(len(a[row])):
             if (col > 0): print(", ", end="")
             # The next 2 lines print a[row][col] with the given fieldWidth
             formatSpec = "%" + str(fieldWidth) + "s"
@@ -148,6 +146,19 @@ class MealPlan(object):
                     blocks += 1
                 else:
                     price += meal.price
+        """
+        if self.days <= 1:
+            Max out self.blocks and self.dineX
+            return [combo]
+        else:
+            averageBlocks = roundHalfUp(self.blocks/self.days)
+            averageDineX = self.dineX/self.days
+            Max out averageBlocks and averageDineX
+            self.blocks -= blocksUsedToday
+            self.dineX -= dineXUsedToday
+            self.days -= 1
+            return [comboUsedToday] + self.generateMealPrices()
+        """
             
                 
 
@@ -199,7 +210,7 @@ def getNutritiousMeals(favsList=[ ]):
             mealVariants.setdefault(meal.id, meal)
     MealPlan1 = MealPlan(mealList, mealList, mealVariants) # first should be favs
     MealPlan1.generateNutrientPlan()
-    print(MealPlan1.nutritiousCombos)
+    print2dList(MealPlan1.nutritiousCombos)
 
 def testMealClasses():
     print('Testing class MealPlan()...', end='')
