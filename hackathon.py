@@ -5,7 +5,6 @@
 # Your andrew id: cbuford
 #################################################
 
-import cmu_112_graphics
 from cmu_112_graphics import *
 from PIL import Image
 from tkinter import *
@@ -25,16 +24,15 @@ import math, copy, random
 
 FILE_FOOD_DATA = "FoodData.csv"
 
-# From https://www.cs.cmu.edu/~112/notes/notes-2d-lists.html#printing
+# Modified From https://www.cs.cmu.edu/~112/notes/notes-2d-lists.html#printing
 # Helper function for print2dList.
 # This finds the maximum length of the string
 # representation of any item in the 2d list
 def maxItemLength(a):
     maxLen = 0
     rows = len(a)
-    cols = len(a[0])
     for row in range(rows):
-        for col in range(cols):
+        for col in range(len(a[row])):
             maxLen = max(maxLen, len(str(a[row][col])))
     return maxLen
 
@@ -47,13 +45,12 @@ def print2dList(a):
         print([])
         return
     rows = len(a)
-    cols = len(a[0])
     fieldWidth = maxItemLength(a)
     print("[ ", end="")
     for row in range(rows):
         if (row > 0): print("\n  ", end="")
         print("[ ", end="")
-        for col in range(cols):
+        for col in range(len(a[row])):
             if (col > 0): print(", ", end="")
             # The next 2 lines print a[row][col] with the given fieldWidth
             formatSpec = "%" + str(fieldWidth) + "s"
@@ -129,7 +126,7 @@ class MealPlan(object):
                         todaysAmounts = [cal, fat, satFat, sodium, chol, carbs, fiber]
                         for j in range(len(self.dailyAmounts)):
                             error = abs(self.dailyAmounts[j]-todaysAmounts[j])/self.dailyAmounts[j]
-                            if (error > .25):
+                            if (error > .3):
                                 isCombo = False
                         if (isCombo and combos[i] not in self.nutritiousCombos):
                             self.nutritiousCombos.append(combos[i])
@@ -169,7 +166,7 @@ def testMealClasses():
 def testAll():
     testMealClasses()
 
-def main():
+def getNutritiousMeals():
     mealList = [ [ ], 
                  [ ],
                  [ ],
@@ -188,15 +185,12 @@ def main():
             else:
                 mealList[3].append(meal)
             mealVariants.setdefault(meal.id, meal)
-    '''
-    favsList = [ [ mealList[0][0], mealList[0][1], mealList[0][2] ],
-                 [ mealList[1][0], mealList[1][1], mealList[1][2] ],
-                 [ mealList[2][0], mealList[2][1], mealList[2][2] ],
-                 [ mealList[3][0], mealList[3][1], mealList[3][2] ] ]
-    '''
     MealPlan1 = MealPlan(mealList, mealList, mealVariants)
     MealPlan1.generateNutrientPlan()
-    print(MealPlan1.nutritiousCombos)
+    print2dList(MealPlan1.nutritiousCombos)
+
+def main():
+    getNutritiousMeals()
     testAll()
 
 if __name__ == '__main__':
