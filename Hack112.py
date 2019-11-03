@@ -2,6 +2,7 @@ import math, copy, random
 
 from cmu_112_graphics import *
 from hackathon import *
+from Hack112_Final_outcome import *
 from tkinter import *
 
 #################################################
@@ -22,11 +23,11 @@ def roundHalfUp(d):
 
 ###########################################################################
 
-class UserBehavior(App):
+class UserBehavior(Mode):
         
 
     def appStarted(self):
-        self._root.configure(cursor='none')
+        self.app._root.configure(cursor='none')
         self.mealVariants = getMealSchedule() 
         self.scrollX = [0 for i in range (4)]
         self.cursorX = self.width // 2
@@ -74,10 +75,10 @@ class UserBehavior(App):
 
     def keyPressed(self, event):
         if event.key == "O":
-            print("Getting stuff")
             surveyInstances = self.getFinalSurvey()
             mealSchedule = getMealSchedule(surveyInstances)
             print(mealSchedule)
+            self.app.setActiveMode(FinalBehavior())
 
 
     
@@ -182,8 +183,12 @@ class UserBehavior(App):
             canvas.create_rectangle(x0,y0,x1,y1, fill = fill)
 
 
+# From http://www.cs.cmu.edu/~112/notes/notes-animations-part2.html
+class MyModalApp(ModalApp):
+    def appStarted(app):
+        app.setActiveMode(UserBehavior())
+        app.timerDelay = 50
+    
 
 
-UserBehavior(width = 700, height = 800)
-
-
+app = MyModalApp(width = 700, height = 800)
