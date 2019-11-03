@@ -23,9 +23,12 @@ def roundHalfUp(d):
 ###########################################################################
 
 class FinalBehavior(Mode):
+    def __init__(self, schedule):
+        super().__init__()
+        self.mealSchedule = schedule ##THe final 2d list
+
     def appStarted(self):
         self.app._root.configure(cursor='none')
-        self.mealVariants = [] ##THe final 2d list
         self.scrollX = 0
         self.cursorX = self.width // 2
         self.cursorY = self.width // 2
@@ -128,15 +131,15 @@ class FinalBehavior(Mode):
             self.drawHorizontalScroller(canvas)
         self.drawCursor(canvas)
 
-        for row in range (len(self.options)):
+        for row in range(len(self.options)):
             rowL = self.options[row]
             scrollx = self.scrollX
-            for col in range (len(rowL)):
+            for col in range(len(rowL)):
                 item = rowL[col]
                 x0,y0,x1,y1 = item[0]-scrollx, item[1],item[2]-scrollx,item[3]
                 cx, cy = (x0+x1)/2, (y0+y1)/2
                 ID = col + len(self.options[row])*row + 1 
-                text = "hi"#self.mealVariants[]
+                text = self.getFoodItem(row, col)
                 if (row,col) not in self.chosenOption[row]:
                     fill = "cyan"
                 else:
@@ -146,6 +149,9 @@ class FinalBehavior(Mode):
         self.drawHorizontalScroller(canvas)
         self.drawCursor(canvas)
     
+    def getFoodItem(self, row, col):
+        return self.mealSchedule[col][row]
+
     def drawCursor(self, canvas):
         canvas.create_image(self.cursorX, self.cursorY, \
                             image= ImageTk.PhotoImage(self.mouseImage), \

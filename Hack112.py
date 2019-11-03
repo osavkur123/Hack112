@@ -77,8 +77,8 @@ class UserBehavior(Mode):
         if event.key == "O":
             surveyInstances = self.getFinalSurvey()
             mealSchedule = getMealSchedule(surveyInstances)
-            print(mealSchedule)
-            self.app.setActiveMode(FinalBehavior())
+            finalBehavior = FinalBehavior([["breakfast", "lunch", "dinner", "snacks"], ["breakfast2", "lunch2", "dinner2", "snacks2"]])
+            self.app.setActiveMode(finalBehavior)
 
 
     
