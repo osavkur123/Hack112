@@ -89,7 +89,6 @@ class MealPlan(object):
         # Daily Amounts
         self.cal = 0
         self.findAvgCal()
-        print(self.cal)
         fat = (13/400)*self.cal
         satFat = (1/100)*self.cal
         sodium = (6/5)*self.cal
@@ -226,6 +225,7 @@ def getMealSchedule(favsList=[ ]):
         MealPlan1 = MealPlan(favsList, mealList, mealVariants)
         MealPlan1.generateNutrientPlan()
         MealPlan1.generateMealPrices()
+        return MealPlan1
     return mealVariants
 
 def testMealClasses():
